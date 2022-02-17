@@ -7,25 +7,32 @@ export default function ListPage() {
   const [listItems, setShoppingList] = useState([]);
 
   // on load, call the fetchItems function (remember: useEffect)
+  useEffect(() => {
+    fetchItems();
+  }, []);
 
   async function fetchItems() {
     // fetch the list items and inject them into state
+    const listItemFetch = await getListItems();
+    await setShoppingList(listItemFetch);
   }
 
   async function handleDeleteClick() {
     // delete all items
-
+    deleteAllItems();
     // then call your fetchItems function to fetch and re-display
+    fetchItems();
   }
 
   return (
     <div className="list-page">
       <button onClick={handleDeleteClick}>New List</button>
       {/* pass fetchItems to the ListItemForm component */}
-      <div className='item-list'>
-        {/* map through all the list items and render them here */}
+      <div className="item-list">
+        {listItems.map((item, i) => {
+          <ListItem key={item.name + i} />;
+        })}
       </div>
-
     </div>
   );
 }
