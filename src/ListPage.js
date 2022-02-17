@@ -28,6 +28,7 @@ export default function ListPage() {
     <div className="list-page">
       <button onClick={handleDeleteClick}>New List</button>
       {/* pass fetchItems to the ListItemForm component */}
+      <ListItemForm fetchItems={fetchItems} />
       <div className="item-list">
         {listItems.map((item, i) => {
           <ListItem key={item.name + i} />;
