@@ -29,7 +29,7 @@ export default function App() {
       <div className="App">
         <header>
           {/* if there's a user, render a logout button here */}
-          {user ? <button>Logout</button> : null}
+          {user ? <button onClick={handleLogout}>Logout</button> : null}
         </header>
         <main>
           <Switch>

@@ -14,14 +14,14 @@ export default function ListPage() {
   async function fetchItems() {
     // fetch the list items and inject them into state
     const listItemFetch = await getListItems();
-    await setShoppingList(listItemFetch);
+    setShoppingList(listItemFetch);
   }
 
   async function handleDeleteClick() {
     // delete all items
-    deleteAllItems();
+    await deleteAllItems();
     // then call your fetchItems function to fetch and re-display
-    fetchItems();
+    await fetchItems();
   }
 
   return (
@@ -29,11 +29,13 @@ export default function ListPage() {
       <button onClick={handleDeleteClick}>New List</button>
       {/* pass fetchItems to the ListItemForm component */}
       <ListItemForm fetchItems={fetchItems} />
-      <div className="item-list">
-        {listItems.map((item, i) => {
-          <ListItem key={item.name + i} />;
-        })}
-      </div>
+      {listItems && (
+        <div className="item-list">
+          {listItems.map((item, i) => {
+            return <ListItem key={item.name + i} listItem={item} fetchItems={fetchItems} />;
+          })}
+        </div>
+      )}
     </div>
   );
 }

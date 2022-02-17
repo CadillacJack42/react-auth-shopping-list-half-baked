@@ -4,7 +4,7 @@ import { createListItem } from './services/fetch-utils';
 export default function ListItemForm({ fetchItems }) {
   // you'll need to track the name and quantity in state
   const [itemName, setItemName] = useState('');
-  const [itemQuantity, setItemQuantity] = useState(0);
+  const [itemQuantity, setItemQuantity] = useState(1);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -15,22 +15,21 @@ export default function ListItemForm({ fetchItems }) {
       quantity: itemQuantity,
       has_been_bought: false,
     };
-    const list = await fetchItems();
-    const newList = [...list, newItem];
-    await createListItem(newList);
+
+    await createListItem(newItem);
 
     // refetch the items using the handler functionpassed down as a prop
     await fetchItems();
 
     // clear the name and quantity in state to refresh the form
-    await setItemQuantity(0);
+    await setItemQuantity(1);
     await setItemName('');
   }
 
   return (
     <div className="new-item-form-container">
       {/* on submit, call the handleSubmit function */}
-      <form>
+      <form onSubmit={handleSubmit}>
         I need . . .
         <label>
           Quantity
@@ -38,10 +37,10 @@ export default function ListItemForm({ fetchItems }) {
           <input
             // this should be a controlled input, soi set the value based on state
             required
-            value={itemName}
+            value={itemQuantity}
             type="number"
             name="quantity"
-            onChange={(e) => setItemName(e.target.value)}
+            onChange={(e) => setItemQuantity(e.target.value)}
           />
         </label>
         <label>
@@ -50,9 +49,9 @@ export default function ListItemForm({ fetchItems }) {
           <input
             // this should be a controlled input, soi set the value based on state
             required
-            value={itemQuantity}
+            value={itemName}
             name="name"
-            onChange={(e) => setItemQuantity(e.target.value)}
+            onChange={(e) => setItemName(e.target.value)}
           />
         </label>
         <button>Add item</button>
